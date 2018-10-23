@@ -1,0 +1,48 @@
+apply plugin: 'com.android.library'
+//申请maven插件
+apply plugin: 'maven'
+
+android {
+    compileSdkVersion 28
+
+    defaultConfig {
+        minSdkVersion 15
+        targetSdkVersion 28
+        versionCode 1
+        versionName "1.0"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    //上传文档配置
+    uploadArchives {
+        repositories.mavenDeployer {
+            def deployPath = file(getProperty('aar.path'))
+            repository(url: "file://${deployPath.absolutePath}")
+            pom.project {
+                groupId "com.cn.rx"
+                artifactId "rxhttp"
+                version "1.0.1"
+            }
+        }
+    }
+
+}
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    implementation "com.squareup.retrofit2:retrofit:2.3.0"
+    implementation "io.reactivex.rxjava2:rxjava:2.1.9"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "com.squareup.okhttp3:logging-interceptor:3.9.0"
+    implementation "com.alibaba:fastjson:1.2.49"
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.2"
+
+}

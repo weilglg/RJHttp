@@ -27,8 +27,8 @@ android {
             repository(url: "file://${deployPath.absolutePath}")
             pom.project {
                 groupId "com.cn.rx"
-                artifactId "rxhttp"
-                version "1.0.1"
+                artifactId "rjhttp"
+                version "1.0.0"
             }
         }
     }

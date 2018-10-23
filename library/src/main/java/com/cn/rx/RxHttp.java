@@ -40,34 +40,19 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 public final class RxHttp {
 
     private static final String TAG = RxHttp.class.getSimpleName();
-    public static final int DEFAULT_MILLISECONDS = 30;             //默认的超时时间
+    private static final int DEFAULT_MILLISECONDS = 30;             //默认的超时时间
     private static final int DEFAULT_RETRY_COUNT = 3;                 //默认重试次数
     private static final int DEFAULT_RETRY_INCREASEDELAY = 0;         //默认重试叠加时间
     private static final int DEFAULT_RETRY_DELAY = 500;               //默认重试延时
-    private static final long CACHE_MAX_SIZE = 10 * 1024 * 1024;      //默认缓存大小
 
 
     private static RxHttp mInstance;
     private OkHttpClient.Builder okHttpClientBuilder;                       //okhttp请求的客户端
     private Retrofit.Builder retrofitBuilder;                         //Retrlofit请求Builder
-    private Cache cache;                                              //OkHttp缓存对象
-    private File cacheFile;                                           //缓存目录
     private long mCacheMaxSize;                                       //最大缓存
-    private Proxy proxy;                                              //OkHttp代理
-    private HostnameVerifier hostnameVerifier;                        //https的全局访问规则
-    private Converter.Factory converterFactory;                       //Converter.Factory
-    private CallAdapter.Factory callAdapterFactory;                   //CallAdapter.Factory
-    private SSLSocketFactory sslSocketFactory;                        //签名验证规则
-    private X509TrustManager trustManager;
-    private SSLUtil.SSLParams sslParams;                              //https签名证书
-    private CookieJar cookieJar;                                      //Cookie管理
-    private ConnectionPool connectionPool;                            //链接池管理
     private Map<String, String> headers = new HashMap<>();            //公共请求头
     private Map<String, String> parameters = new HashMap<>();         //公共请求参数
     private OkHttpClient httpClient;                                  //自定义OkHttpClient
-    private int readTimeout;                                          //读超时
-    private int writeTimeout;                                         //写超时
-    private int connectTimeout;                                       //链接超时
     private int mRetryCount = DEFAULT_RETRY_COUNT;                    //重试次数默认3次
     private int mRetryDelay = DEFAULT_RETRY_DELAY;                    //延迟xxms重试
     private int mRetryIncreaseDelay = DEFAULT_RETRY_INCREASEDELAY;    //叠加延迟

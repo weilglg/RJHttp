@@ -1,12 +1,11 @@
 package com.cn.rx.cookie;
 
-import android.support.annotation.NonNull;
-
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import io.reactivex.annotations.NonNull;
 import okhttp3.Cookie;
 
 public class CookieCacheImpl implements CookieCache {

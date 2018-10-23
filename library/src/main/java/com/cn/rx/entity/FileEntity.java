@@ -1,10 +1,11 @@
 package com.cn.rx.entity;
 
 import java.io.File;
+import java.io.Serializable;
 
 import okhttp3.MediaType;
 
-public class FileEntity<T> {
+public class FileEntity<T> implements Serializable {
     private T data;
     private String fileName;
     private long fileSize;
@@ -13,7 +14,6 @@ public class FileEntity<T> {
     public FileEntity(T data, String fileName, MediaType mediaType) {
         this.data = data;
         this.fileName = fileName;
-        this.fileSize = fileSize;
         this.mediaType = mediaType;
         if (data instanceof File) {
             this.fileSize = ((File) data).length();

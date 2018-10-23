@@ -2,6 +2,7 @@ package com.cn.rx.entity;
 
 import java.io.File;
 import java.io.InputStream;
+import java.io.Serializable;
 import java.net.FileNameMap;
 import java.net.URLConnection;
 import java.util.ArrayList;
@@ -11,7 +12,7 @@ import java.util.Map;
 
 import okhttp3.MediaType;
 
-public class HttpParamEntity {
+public class HttpParamEntity implements Serializable {
     private HashMap<String, String> paramMap = new HashMap<>();
     private HashMap<String, List<FileEntity>> fileMap = new HashMap<>();
 
@@ -44,9 +45,9 @@ public class HttpParamEntity {
         paramMap.put(key, value);
     }
 
-    public void put(Map<String, FileEntity> fileMap) {
+    public void put(Map<String, List<FileEntity>> fileMap) {
         if (fileMap != null && !fileMap.isEmpty()) {
-            fileMap.putAll(fileMap);
+            this.fileMap.putAll(fileMap);
         }
     }
 

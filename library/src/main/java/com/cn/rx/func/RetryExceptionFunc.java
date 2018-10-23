@@ -1,6 +1,5 @@
 package com.cn.rx.func;
 
-import android.support.annotation.NonNull;
 
 import com.cn.rx.exception.ApiThrowable;
 import com.cn.rx.exception.ExceptionFactory;
@@ -13,6 +12,7 @@ import java.util.concurrent.TimeoutException;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
+import io.reactivex.annotations.NonNull;
 import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 

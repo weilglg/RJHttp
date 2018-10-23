@@ -3,8 +3,8 @@ package com.cn.rx.subscriber;
 import android.content.Context;
 
 import com.cn.rx.exception.ApiThrowable;
-import com.cn.rx.util.LogUtil;
 import com.cn.rx.exception.ExceptionFactory;
+import com.cn.rx.util.LogUtil;
 
 import java.lang.ref.WeakReference;
 

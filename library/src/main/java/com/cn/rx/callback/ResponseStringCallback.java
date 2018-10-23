@@ -1,8 +1,6 @@
 package com.cn.rx.callback;
 
 
-import java.io.IOException;
-
 import okhttp3.ResponseBody;
 
 /**

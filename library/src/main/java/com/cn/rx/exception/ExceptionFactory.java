@@ -3,8 +3,8 @@ package com.cn.rx.exception;
 import android.net.ParseException;
 import android.text.TextUtils;
 
-import com.cn.rx.util.LogUtil;
 import com.cn.rx.config.ResultConfigLoader;
+import com.cn.rx.util.LogUtil;
 
 import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONException;
@@ -40,7 +40,10 @@ public class ExceptionFactory {
         }
         LogUtil.e("ExceptionFactory", detail);
         ApiThrowable ex;
-        if (!(e instanceof ServerException) && e instanceof HttpException) {
+        if (e instanceof ApiThrowable) {
+            ex = (ApiThrowable) e;
+            return ex;
+        } else if (!(e instanceof ServerException) && e instanceof HttpException) {
             HttpException httpException = (HttpException) e;
             ex = new ApiThrowable(e, httpException.code());
             switch (ex.getCode()) {

@@ -1,12 +1,13 @@
 package com.cn.rx.request;
 
+
 import com.cn.rx.callback.ResultCallback;
 import com.cn.rx.callback.ResultCallbackProxy;
 import com.cn.rx.entity.CommResultEntity;
 
 import io.reactivex.disposables.Disposable;
 
-public class CommPostRequest extends ApiResultPostRequest {
+public class CommPostRequest extends UploadRequest {
 
     public CommPostRequest(String url) {
         super(url);

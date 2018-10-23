@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONException;
 import com.alibaba.fastjson.parser.Feature;
-import com.cn.rx.exception.ApiThrowable;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

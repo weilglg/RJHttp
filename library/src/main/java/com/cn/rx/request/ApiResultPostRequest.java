@@ -1,9 +1,9 @@
 package com.cn.rx.request;
 
+
 import com.cn.rx.callback.ResultCallback;
 import com.cn.rx.callback.ResultCallbackProxy;
 import com.cn.rx.callback.ResultClazzCallProxy;
-import com.cn.rx.callback.ResultProgressCallback;
 import com.cn.rx.entity.ApiResultEntity;
 import com.cn.rx.func.ApiResultFunc;
 import com.cn.rx.func.RetryExceptionFunc;
@@ -44,15 +44,11 @@ public class ApiResultPostRequest extends HttpBodyRequest<ApiResultPostRequest> 
     }
 
     public <T> Disposable execute(Object tag, ResultCallbackProxy<? extends ApiResultEntity<T>, T> proxy) {
-        ResultCallback<T> callback = proxy.getCallback();
-        if (callback instanceof ResultProgressCallback) {
-            ((ResultProgressCallback) callback).setTag(tag);
-        }
-        Observable<T> observable = build(callback).generateObservable(generateRequest(), proxy);
+        Observable<T> observable = build().generateObservable(generateRequest(), proxy);
         return observable.subscribeWith(new ResultCallbackSubscriber<T>(tag, proxy.getCallback()));
     }
 
-    private <T> Observable<T> generateObservable(Observable observable, ResultCallbackProxy<? extends ApiResultEntity<T>, T> proxy) {
+    protected  <T> Observable<T> generateObservable(Observable observable, ResultCallbackProxy<? extends ApiResultEntity<T>, T> proxy) {
         return observable.map(new ApiResultFunc(proxy.getType()))
                 .compose(isSyncRequest ? RxUtil._io_main_result() : RxUtil._main_result())
                 .retryWhen(new RetryExceptionFunc(mRetryCount, mRetryDelay, mRetryIncreaseDelay));

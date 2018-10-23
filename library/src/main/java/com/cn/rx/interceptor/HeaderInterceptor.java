@@ -1,6 +1,6 @@
 package com.cn.rx.interceptor;
 
-
+import android.support.annotation.NonNull;
 
 import com.cn.rx.util.LogUtil;
 
@@ -9,7 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import io.reactivex.annotations.NonNull;
 import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;

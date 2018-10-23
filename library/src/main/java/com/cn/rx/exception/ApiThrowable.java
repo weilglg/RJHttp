@@ -4,12 +4,12 @@ public class ApiThrowable extends Exception {
     private int code;
     private String message;
 
-    public ApiThrowable(java.lang.Throwable throwable, int code) {
+    public ApiThrowable(Throwable throwable, int code) {
         super(throwable);
         this.code = code;
     }
 
-    public ApiThrowable(java.lang.Throwable throwable, int code, String message) {
+    public ApiThrowable(Throwable throwable, int code, String message) {
         super(throwable);
         this.code = code;
         this.message = message;

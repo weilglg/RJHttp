@@ -5,8 +5,10 @@ import android.content.Context;
 
 
 import com.cn.rx.interceptor.HeaderInterceptor;
+import com.cn.rx.request.DownloadRequest;
 import com.cn.rx.request.TemplatePostRequest;
 import com.cn.rx.request.ApiResultPostRequest;
+import com.cn.rx.request.UploadRequest;
 import com.cn.rx.util.LogUtil;
 import com.cn.rx.util.SSLUtil;
 import com.cn.rx.util.Util;
@@ -503,5 +505,13 @@ public final class RxHttp {
 
     public static ApiResultPostRequest resultPost(String url) {
         return new ApiResultPostRequest(url);
+    }
+
+    public static UploadRequest upload(String url) {
+        return new UploadRequest(url);
+    }
+
+    public DownloadRequest download(String url) {
+        return new DownloadRequest(url);
     }
 }

@@ -39,7 +39,7 @@ public class CacheInterceptor implements Interceptor {
     @Override
     public Response intercept(@NonNull Chain chain) throws IOException {
         Request request = chain.request();
-        okhttp3.Response originalResponse = chain.proceed(chain.request());
+        Response originalResponse = chain.proceed(chain.request());
         String cacheControl = originalResponse.header("Cache-Control");
         //String cacheControl = request.cacheControl().toString();
         Log.d("RxHttp", maxStaleOnline + "s load cache:" + cacheControl);

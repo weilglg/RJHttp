@@ -5,12 +5,9 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.parser.Feature;
 import com.cn.rx.entity.ApiResultEntity;
-import com.cn.rx.exception.ServerException;
-import com.cn.rx.util.Util;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.List;
 
 import io.reactivex.functions.Function;
 import okhttp3.ResponseBody;
@@ -39,7 +36,7 @@ public class ApiResultFunc<T> implements Function<ResponseBody, ApiResultEntity<
                 apiResult.setCode(-1);
                 apiResult.setMsg("ApiResultEntity.class.isAssignableFrom(subClazz) err!!");
             }
-//            if (type instanceof ParameterizedType) {//自定义的ApiResult继承自com.retrofit.network.entity.ApiResultEntity<T>
+//            if (type instanceof ParameterizedType) {//自定义的ApiResult继承自com.cn.rx.entity.ApiResultEntity<T>
 //                final Class<T> cls = (Class) ((ParameterizedType) type).getRawType();
 //                if (ApiResultEntity.class.isAssignableFrom(cls)) { //判断传入的是否是ApiResultEntity或者其子类
 //                    final Type[] params = ((ParameterizedType) type).getActualTypeArguments();

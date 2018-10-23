@@ -2,15 +2,12 @@ package com.cn.rx.request;
 
 import android.content.Context;
 
+
 import com.cn.rx.ApiManager;
 import com.cn.rx.RxHttp;
-import com.cn.rx.callback.ResultCallback;
-import com.cn.rx.callback.ResultProgressCallback;
 import com.cn.rx.entity.HttpParamEntity;
 import com.cn.rx.interceptor.BaseDynamicInterceptor;
 import com.cn.rx.interceptor.HeaderInterceptor;
-import com.cn.rx.interceptor.ProgressRequestInterceptor;
-import com.cn.rx.interceptor.ProgressResponseInterceptor;
 import com.cn.rx.util.SSLUtil;
 import com.cn.rx.util.Util;
 
@@ -58,7 +55,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
     //    Map<String, String> mParameters = new HashMap<>();                //请求参数
 //    Map<String, String> mFileMap = new HashMap<>();                   //上传文件
     HttpParamEntity mHttpParams = new HttpParamEntity();      //请求参数集合
-    private OkHttpClient mHttpClient;                                 //自定义OkHttpClient
+    protected OkHttpClient mHttpClient;                                 //自定义OkHttpClient
     private int mReadTimeout;                                         //读超时
     private int mWriteTimeout;                                        //写超时
     private int mConnectTimeout;                                      //链接超时
@@ -73,6 +70,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
     private boolean accessToken = false;                              //是否需要添加token
     boolean isSyncRequest = true;
     private Retrofit mRetrofit;
+    private OkHttpClient mOkHttpClient;
     ApiManager mApiManager;
     private HeaderInterceptor mHeaderInterceptor;
 
@@ -109,7 +107,6 @@ public abstract class BaseRequest<R extends BaseRequest> {
         this.isSyncRequest = isSyncRequest;
         return (R) this;
     }
-
 
     public R cache(Cache cache) {
         this.mCache = Util.checkNotNull(cache, "cache is null");
@@ -186,8 +183,8 @@ public abstract class BaseRequest<R extends BaseRequest> {
         return (R) this;
     }
 
-    public R param(Map<String, String> parameters) {
-        this.mHttpParams.param(Util.checkNotNull(parameters, "param is null"));
+    public R param(Map<String, String> params) {
+        this.mHttpParams.param(Util.checkNotNull(params, "param is null"));
         return (R) this;
     }
 
@@ -283,7 +280,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
         return (R) this;
     }
 
-    private OkHttpClient.Builder generateOkHttpClientBuilder() {
+    protected OkHttpClient.Builder generateOkHttpClientBuilder() {
         if (mReadTimeout <= 0 && mWriteTimeout <= 0 && mConnectTimeout <= 0 && mSslParams == null
                 && mCookieJar == null && mCache == null && mCacheFile == null && mCacheMaxSize <= 0
                 && mInterceptorList.size() == 0 && mNetworkInterceptorList.size() == 0 && mProxy == null
@@ -377,7 +374,7 @@ public abstract class BaseRequest<R extends BaseRequest> {
         }
     }
 
-    private Retrofit.Builder generateRetrofitBuilder() {
+    protected Retrofit.Builder generateRetrofitBuilder() {
         RxHttp rxHttp = RxHttp.getInstance();
         if (mBaseUrl == null || mBaseUrl.equals(rxHttp.getBaseUrl()) && mConverterFactory == null
                 && mCallAdapterFactory == null && mHttpClient == null && rxHttp.getHttpClient() == null) {
@@ -399,58 +396,22 @@ public abstract class BaseRequest<R extends BaseRequest> {
     }
 
     protected <T> R build() {
-        build(null);
-        return (R) this;
-    }
-
-    protected <T> R build(ResultCallback<T> callback) {
         OkHttpClient.Builder okHttpClientBuilder = generateOkHttpClientBuilder();
-        if (callback != null && callback instanceof ResultProgressCallback) {
-            okHttpClientBuilder.addInterceptor(new ProgressRequestInterceptor((ResultProgressCallback) callback));
-        }
         Retrofit.Builder retrofitBuilder = generateRetrofitBuilder();
         if (mHttpClient != null) {
-            retrofitBuilder.client(mHttpClient);
+            mOkHttpClient = mHttpClient;
         } else if (RxHttp.getInstance().getHttpClient() != null) {
-            retrofitBuilder.client(RxHttp.getInstance().getHttpClient());
+            mOkHttpClient = RxHttp.getInstance().getHttpClient();
         } else {
-            retrofitBuilder.client(okHttpClientBuilder.build());
+           mOkHttpClient =  okHttpClientBuilder.build();
         }
+        retrofitBuilder.client(mOkHttpClient);
         mRetrofit = retrofitBuilder.build();
         mApiManager = mRetrofit.create(ApiManager.class);
         return (R) this;
     }
 
-    protected <T> R upload(ResultProgressCallback<T> callback) {
-        OkHttpClient.Builder okHttpClientBuilder = generateOkHttpClientBuilder();
-        Retrofit.Builder retrofitBuilder = generateRetrofitBuilder();
-        if (mHttpClient != null) {
-            retrofitBuilder.client(mHttpClient);
-        } else if (RxHttp.getInstance().getHttpClient() != null) {
-            retrofitBuilder.client(RxHttp.getInstance().getHttpClient());
-        } else {
-            retrofitBuilder.client(okHttpClientBuilder.build());
-        }
-        mRetrofit = retrofitBuilder.build();
-        mApiManager = mRetrofit.create(ApiManager.class);
-        return (R) this;
-    }
 
-    protected <T> R download(ResultProgressCallback<T> callback) {
-        OkHttpClient.Builder okHttpClientBuilder = generateOkHttpClientBuilder();
-        okHttpClientBuilder.addInterceptor(new ProgressResponseInterceptor(callback));
-        Retrofit.Builder retrofitBuilder = generateRetrofitBuilder();
-        if (mHttpClient != null) {
-            retrofitBuilder.client(mHttpClient);
-        } else if (RxHttp.getInstance().getHttpClient() != null) {
-            retrofitBuilder.client(RxHttp.getInstance().getHttpClient());
-        } else {
-            retrofitBuilder.client(okHttpClientBuilder.build());
-        }
-        mRetrofit = retrofitBuilder.build();
-        mApiManager = mRetrofit.create(ApiManager.class);
-        return (R) this;
-    }
 
     protected abstract Observable<ResponseBody> generateRequest();
 

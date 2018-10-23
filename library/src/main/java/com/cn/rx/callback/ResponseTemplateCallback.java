@@ -8,7 +8,6 @@ import com.alibaba.fastjson.parser.Feature;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
 import com.alibaba.fastjson.serializer.CollectionCodec;
-
 import com.cn.rx.RxHttp;
 import com.cn.rx.config.ResultConfigLoader;
 import com.cn.rx.exception.ServerException;

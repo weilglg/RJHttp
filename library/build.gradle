@@ -28,7 +28,7 @@ android {
             pom.project {
                 groupId "com.cn.rx"
                 artifactId "rjhttp"
-                version "1.0.0"
+                version "1.0.1"
             }
         }
     }
